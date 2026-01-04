@@ -9,7 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import pymysql 
+pymysql.version_info = (2, 2, 2, "final", 0)
 
+pymysql.install_as_MySQLdb() 
+
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -74,11 +79,16 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+import os
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',      # MySQL 엔진으로 변경
+        'NAME': 'piromatch_db',               # 실제 생성한 DB 이름
+        'USER': 'admin',                           # RDS 마스터 사용자 이름
+        'PASSWORD': os.environ.get('DB_PASSWORD'), # 환경 속성에서 가져옴
+        'HOST': os.environ.get('DB_HOST'),         # 환경 속성에서 가져옴
+        'PORT': '3306',                            # MySQL 기본 포트
     }
 }
 
