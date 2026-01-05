@@ -32,7 +32,7 @@ def member_create(request):
 
 #멤버 삭제
 @require_POST
-def member_delete(request, member_id):
-    member = get_object_or_404(Member, id=member_id)
+def member_delete(request, pk):
+    member = get_object_or_404(Member, pk=pk)
     member.delete()
     return redirect('members:member_list')
