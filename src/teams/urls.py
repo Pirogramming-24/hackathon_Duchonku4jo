@@ -1,10 +1,11 @@
 from django.urls import path
 from . import views
 
-app_name = 'teams'
+app_name = "teams"
 
 urlpatterns = [
-    path('', views.team_list, name='team_list'), 
-    path('generate/', views.generate_teams, name='generate_teams'), # 새로고침 시마다 알고리즘 재실행 [cite: 133]
-    path('save/', views.save_teams, name='save_teams'),            # DB 확정 저장 [cite: 134]
+    path("<int:week_id>/", views.team_home, name="team_home"),
+    path("<int:week_id>/scores/", views.score_input, name="score_input"),
+    path("<int:week_id>/preview/", views.team_preview, name="team_preview"),
+    path("<int:week_id>/save/", views.team_save, name="team_save"),
 ]

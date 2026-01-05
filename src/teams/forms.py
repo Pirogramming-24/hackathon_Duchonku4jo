@@ -1,10 +1,15 @@
 from django import forms
-from .models import Member
+from members.models import Member
+
 
 class MemberScoreForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['score']
+        fields = ["score"]
+
         widgets = {
-            'score': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.1'})
+            "score": forms.NumberInput(attrs={
+                "min": 0,
+                "class": "score-input"
+            })
         }
