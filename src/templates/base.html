@@ -66,7 +66,13 @@
         nav a {
             font-size: 16px;
             opacity: .9;
+            transition: color 0.3s ease, opacity 0.3s ease;
         }
+
+        nav a:hover {
+            color: #0BEC12; /* 로고와 같은 초록색 */
+            opacity: 1;
+        }   
 
         main {
             padding-top: 78px;
@@ -85,7 +91,9 @@
             <div class="title">PiroMatch</div>
         </a>
         <nav>
-            <a href="{% url 'members:member_list' %}">멤버 관리</a>
+            <a href="{% url 'members:member_list' %}" class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
+                멤버 관리
+            </a>
         </nav>
     </header>
 
