@@ -4,6 +4,6 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', lambda r: redirect('teams:team_list')),
+    path('', lambda r: redirect('teams:team_home', week_id=1)),
     path('teams/', include('teams.urls')),
 ]
