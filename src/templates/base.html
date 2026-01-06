@@ -85,15 +85,12 @@
 <body>
     <header>
         <a href="{% url 'weeks:weeks_list' %}" class="brand">
-            <div class="logo">
-                <span></span><span></span><span></span><span></span>
-            </div>
+            <img src="{% static 'images/piro_logo.png' %}" alt="PiroMatch Logo" class="logo-img">
+            
             <div class="title">PiroMatch</div>
         </a>
         <nav>
-            <a href="{% url 'members:member_list' %}" class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
-                멤버 관리
-            </a>
+            <a href="{% url 'members:member_list' %}">멤버 관리</a>
         </nav>
     </header>
 
