@@ -4,8 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Piro Match</title>
-    <link rel="icon" type="image/icon" href="{% static 'images/piro_logo.ico' %}">
+    <title>{% block title %}Piro Match{% endblock %}</title>
 
     <style>
         body {
@@ -66,13 +65,7 @@
         nav a {
             font-size: 16px;
             opacity: .9;
-            transition: color 0.3s ease, opacity 0.3s ease;
         }
-
-        nav a:hover {
-            color: #0BEC12; /* 로고와 같은 초록색 */
-            opacity: 1;
-        }   
 
         main {
             padding-top: 78px;
@@ -85,8 +78,9 @@
 <body>
     <header>
         <a href="{% url 'weeks:weeks_list' %}" class="brand">
-            <img src="{% static 'images/piro_logo.png' %}" alt="PiroMatch Logo" class="logo-img">
-            
+            <div class="logo">
+                <span></span><span></span><span></span><span></span>
+            </div>
             <div class="title">PiroMatch</div>
         </a>
         <nav>
