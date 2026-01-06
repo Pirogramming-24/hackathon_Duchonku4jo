@@ -48,14 +48,6 @@
             display: block;
         }
 
-        /* 기존에 있던 .logo 스타일 (점 디자인) */
-        .logo {
-            width: 26px;
-            height: 26px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 4px;
-        }
 
         .logo span {
             width: 11px;
@@ -98,7 +90,7 @@
             <div class="title">PiroMatch</div>
         </a>
         <nav>
-            <a href="{% url 'members:member_list' %}">멤버 관리</a>
+            <a href="{% url 'members:member_list' %}" class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
         </nav>
     </header>
 
