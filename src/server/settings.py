@@ -59,10 +59,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'server.urls'
 
+# src/server/settings.py
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # DIRS가 비어있으면 공통 templates 폴더를 찾지 못합니다. 아래처럼 수정하세요.
+        'DIRS': [BASE_DIR / 'templates'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,7 +76,6 @@ TEMPLATES = [
         },
     },
 ]
-
 WSGI_APPLICATION = 'server.wsgi.application'
 
 
