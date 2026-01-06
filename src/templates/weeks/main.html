@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}주차 선택{% endblock %}
+
+{% block extra_head %}
+<style>
+    .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 24px;
+        position: relative;
+    }
+
+    .create-btn {
+        position: absolute;
+        right: 24px;
+        top: 24px;
+        background: #0BEC12;
+        color: #000;
+        border-radius: 999px;
+        padding: 10px 18px;
+        font-weight: 700;
+    }
+
+    .empty {
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #0BEC12;
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 1.4;
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        padding-top: 80px;
+    }
+
+    .card {
+        background: #FCF9EA;
+        color: #111;
+        border-radius: 16px;
+        padding: 22px 26px;
+        font-size: 26px;
+        font-weight: 800;
+        position: relative;
+    }
+
+    .delete {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: none;
+    }
+
+    .card:hover .delete {
+        display: block;
+    }
+
+    .delete button {
+        background: #D9D9D9;
+        border: 0;
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .card-link {
+        display: block;
+        color: #111;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <a href="{% url 'weeks:week_create' %}" class="create-btn">주차 생성</a>
+
+    {% if not weeks %}
+    <div class="empty">
+        아직 생성된 주차가 없어요<br>
+        팀 편성을 시작하려면 주차를 먼저 등록해 주세요
+    </div>
+    {% else %}
+    <div class="list">
+        {% for week in weeks %}
+        <div class="card">
+            <a class="card-link" href="{% url 'teams:team_home' week.id %}">
+                {{ week.week_no }}주차 : {{ week.pr_name }} / {{ week.team_count }}조
+            </a>
+
+            <div class="delete">
+                <form method="post" action="{% url 'weeks:week_delete' week.id %}">
+                    {% csrf_token %}
+                    <button type="submit">삭제</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

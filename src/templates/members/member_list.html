@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block title %}멤버 관리 | Piro Match{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --green: #0BEC12;
+        --pink: #FFD7EB;
+        --sky: #B1DDFF;
+        --gray: #D9D9D9;
+    }
+
+    .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 34px 24px 60px;
+        position: relative;
+    }
+
+    /* 우측 상단 버튼 */
+    .create-btn {
+        position: absolute;
+        right: 24px;
+        top: 24px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 18px;
+        border-radius: 999px;
+        background: var(--green);
+        color: #000;
+        font-weight: 900;
+        font-size: 16px;
+    }
+
+    /* 멤버 없을 때 */
+    .empty {
+        height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: var(--green);
+        font-size: 22px;
+        font-weight: 900;
+        line-height: 1.4;
+        white-space: pre-line;
+    }
+
+    /* 멤버 카드 3열 */
+    .grid {
+        margin-top: 90px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 26px 44px;
+        justify-items: center;
+    }
+
+    .member-card {
+        width: min(280px, 100%);
+        height: 68px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        font-size: 28px;
+        font-weight: 900;
+        color: #111;
+    }
+
+    .member-card.female {
+        background: var(--pink);
+    }
+
+    .member-card.male {
+        background: var(--sky);
+    }
+
+    /* 비전공자(X) = 밑줄 */
+    .member-card.nonmajor {
+        text-decoration: underline;
+        text-underline-offset: 6px;
+        text-decoration-thickness: 4px;
+    }
+
+    /* 삭제 버튼 호버 */
+    .delete-wrap {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .12s ease;
+    }
+
+    .member-card:hover .delete-wrap {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .delete-wrap button {
+        border: 0;
+        border-radius: 10px;
+        background: var(--gray);
+        color: #111;
+        font-weight: 900;
+        font-size: 12px;
+        padding: 4px 10px;
+        cursor: pointer;
+    }
+
+    @media (max-width: 980px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (max-width: 640px) {
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <a class="create-btn" href="{% url 'members:member_create' %}">멤버 등록</a>
+
+    {% if not members %}
+    <div class="empty">
+        아직 등록된 멤버가 없어요
+        팀 편성을 시작하려면 멤버를 먼저 등록해 주세요
+    </div>
+    {% else %}
+    <div class="grid">
+        {% for member in members %}
+        <div class="member-card
+                    {% if member.gender == 'M' %}male{% else %}female{% endif %}
+                    {% if member.major == 'X' %}nonmajor{% endif %}">
+            {{ member.name }}
+
+            <div class="delete-wrap">
+                <form method="post" action="{% url 'members:member_delete' member.pk %}">
+                    {% csrf_token %}
+                    <button type="submit">삭제</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

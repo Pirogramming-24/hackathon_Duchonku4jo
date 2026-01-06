@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Piro Match{% endblock %}</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #000;
+            font-family: Inter, system-ui, -apple-system, sans-serif;
+            color: #fff;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 78px;
+            padding: 0 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #2b2b2b;
+            background: #000;
+            z-index: 1000;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo {
+            width: 26px;
+            height: 26px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+        }
+
+        .logo span {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: #0BEC12;
+        }
+
+        .title {
+            font-size: 28px;
+            font-style: italic;
+            font-weight: 700;
+            color: #0BEC12;
+        }
+
+        nav a {
+            font-size: 16px;
+            opacity: .9;
+        }
+
+        main {
+            padding-top: 78px;
+        }
+    </style>
+
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <a href="{% url 'weeks:weeks_list' %}" class="brand">
+            <div class="logo">
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="title">PiroMatch</div>
+        </a>
+        <nav>
+            <a href="{% url 'members:member_list' %}">멤버 관리</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

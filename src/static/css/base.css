@@ -1,0 +1,94 @@
+/* 글로벌 변수 설정 */
+:root {
+    --primary-color: #4f46e5;       /* 인디고 색상 (메인) */
+    --primary-hover: #4338ca;
+    --background-color: #f9fafb;    /* 연한 회색 배경 */
+    --text-color: #1f2937;          /* 진한 회색 텍스트 */
+    --nav-bg: #ffffff;
+    --border-color: #e5e7eb;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* 네비게이션 바 스타일 */
+.navbar {
+    background-color: var(--nav-bg);
+    border-bottom: 1px solid var(--border-color);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    position: sticky; /* 스크롤 내려도 상단 고정 */
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+    max-width: 1024px; /* 컨텐츠 너비 제한 */
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 로고 스타일 */
+.nav-logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.5px;
+}
+
+.nav-logo span {
+    color: #111827;
+}
+
+/* 메뉴 링크들 */
+.nav-menu {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #4b5563;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: #f3f4f6;
+    color: var(--primary-color);
+}
+
+/* 메인 컨텐츠 영역 */
+.main-container {
+    max-width: 1024px;
+    margin: 40px auto;
+    padding: 0 20px;
+    min-height: 80vh;
+}
+
+/* 모바일 대응 */
+@media (max-width: 640px) {
+    .nav-link {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+}

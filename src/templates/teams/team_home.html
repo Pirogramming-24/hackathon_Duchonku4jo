@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block title %}팀 편성 | Piro Match{% endblock %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --green: #0BEC12;
+        --beige: #FCF9EA;
+        --header-gray: #D9D9D9;
+        --line: #2b2b2b;
+    }
+
+    .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 34px 24px 60px;
+        position: relative;
+    }
+
+    /* 상단 액션 영역 */
+    .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-top: 12px;
+        margin-bottom: 22px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .btn-green {
+        background: var(--green);
+        color: #000;
+    }
+
+    .btn-score {
+        padding: 12px 26px;
+        font-size: 22px;
+        letter-spacing: .2px;
+    }
+
+    /* 새로고침 동그라미 버튼(우측) */
+    .refresh {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .refresh svg {
+        width: 22px;
+        height: 22px;
+        stroke: #000;
+    }
+
+    /* 메인 표 컨테이너 */
+    .board {
+        width: min(1020px, 100%);
+        margin: 0 auto;
+        background: #FCF9EA;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, .35);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(var(--team-count), 1fr);
+    }
+
+    .col {
+        min-height: 340px;
+        border-left: 1px solid rgba(0, 0, 0, .25);
+    }
+
+    .col:first-child {
+        border-left: 0;
+    }
+
+    .col-top {
+        height: 58px;
+        background: #D9D9D9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 900;
+        color: #111;
+        border-bottom: 1px solid rgba(0, 0, 0, .25);
+    }
+
+    .col-body {
+        height: 280px;
+    }
+
+
+    /* 하단 팀 저장 버튼 */
+    .save-wrap {
+        width: min(1020px, 100%);
+        margin: 18px auto 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-save {
+        padding: 10px 22px;
+        font-size: 18px;
+    }
+
+    .col-body.filled {
+        padding: 18px 12px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pill {
+        width: 78%;
+        height: 32px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 900;
+        color: #111;
+    }
+
+    .pill.male {
+        background: #B1DDFF;
+    }
+
+    .pill.female {
+        background: #FFD7EB;
+    }
+
+    .pill.nonmajor {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 3px;
+    }
+
+    .avg {
+        margin-top: 16px;
+        width: 92%;
+        font-size: 13px;
+        font-weight: 800;
+        color: #111;
+        text-align: left;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="actions">
+        <a class="btn btn-green btn-score" href="{% url 'teams:score_input' week.id %}">
+            멤버 과제 점수 입력
+        </a>
+
+        <!-- 새로고침: preview로 이동(= 다시 뽑기) -->
+        <a class="refresh" href="{% url 'teams:team_preview' week.id %}" aria-label="새로고침">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20 6v6h-6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M4 18v-6h6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M20 12a8 8 0 0 0-14.9-4M4 12a8 8 0 0 0 14.9 4" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="board">
+        <div class="grid" style="--team-count: {{ week.team_count|default:5 }};">
+            {% if teams and teams|length > 0 %}
+            {% for team in teams %}
+            <div class="col">
+                <div class="col-top">{{ team.team_no }}조</div>
+
+                <div class="col-body filled">
+                    {% for m in team.members %}
+                    <div class="pill
+                        {% if m.gender == 'M' %}male{% else %}female{% endif %}
+                        {% if m.major == 'X' %}nonmajor{% endif %}">
+                        {{ m.name }}
+                    </div>
+                    {% endfor %}
+
+                    <div class="avg">
+                        과제 평균 점수: {{ team.team_score|floatformat:0 }}점
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for _ in ""|center:week.team_count %}
+            <div class="col">
+                <div class="col-top">{{ forloop.counter }}조</div>
+                <div class="col-body"></div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="save-wrap">
+        <!-- 초기 화면에서도 버튼은 보이게(원하면 disabled 처리 가능) -->
+        <a class="btn btn-green btn-save" href="{% url 'teams:team_save' week.id %}">
+            팀 저장
+        </a>
+    </div>
+</div>
+{% endblock %}
