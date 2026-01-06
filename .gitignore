@@ -265,16 +265,16 @@ poetry.toml
 pyrightconfig.json
 
 ### Web ###
-*.asp
-*.cer
-*.csr
-*.htm
-*.js
-*.jsp
-*.php
-*.rss
-*.wasm
-*.wat
+# *.asp
+# *.cer
+# *.csr
+# *.htm
+# *.js
+# *.jsp
+# *.php
+# *.rss
+# *.wasm
+# *.wat
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,web
 
