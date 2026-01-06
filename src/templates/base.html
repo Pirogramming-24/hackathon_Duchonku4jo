@@ -43,8 +43,10 @@
 
         /* 추가된 부분: 로고 이미지 크기 조절 */
         .logo-img {
-            width: 40px;  /* 로고 가로 크기 */
-            height: auto; /* 비율에 맞춰 세로 조절 */
+            width: 40px;
+            /* 로고 가로 크기 */
+            height: auto;
+            /* 비율에 맞춰 세로 조절 */
             display: block;
         }
 
@@ -61,7 +63,7 @@
             font-style: italic;
             font-weight: 700;
             color: #0BEC12;
-        } 
+        }
 
         nav a {
             font-size: 16px;
@@ -73,10 +75,82 @@
         nav a.active {
             color: #0BEC12;
             opacity: 1;
-        }   
+        }
 
         main {
             padding-top: 78px;
+        }
+
+
+        @media (max-width: 480px) {
+            header {
+                height: 56px;
+                /* 78 → 56 */
+                padding: 0 16px;
+                /* 48 → 16 */
+            }
+
+            .brand {
+                gap: 10px;
+                min-width: 0;
+                /* 긴 텍스트가 있을 때 overflow 방지 */
+            }
+
+            /* 로고 이미지: 모바일에서 너무 크지 않게 */
+            .logo-img {
+                width: 28px;
+                /* 40 → 28 */
+                height: auto;
+            }
+
+            .title {
+                font-size: 20px;
+                /* 28 → 20 */
+                white-space: nowrap;
+            }
+
+            nav a {
+                font-size: 14px;
+                padding: 6px 10px;
+                /* 터치 영역 확보 */
+                border-radius: 999px;
+                background: rgba(11, 236, 18, 0.12);
+                opacity: 1;
+                /* 모바일에선 흐릿하지 않게 */
+            }
+
+            /* active 표시(HTML에 active 클래스 넣는 걸 전제로) */
+            nav a.active {
+                background: rgba(11, 236, 18, 0.22);
+                color: #0BEC12;
+            }
+
+            /* hover는 모바일에서 의미 없으니 효과 과하지 않게 */
+            nav a:hover {
+                color: #0BEC12;
+                opacity: 1;
+            }
+
+            main {
+                padding-top: 56px;
+                /* header 높이와 맞춤 */
+            }
+        }
+
+        /* 아주 작은 폰 (≤ 360px) */
+        @media (max-width: 360px) {
+            .logo-img {
+                width: 24px;
+            }
+
+            .title {
+                font-size: 18px;
+            }
+
+            nav a {
+                font-size: 13px;
+                padding: 5px 8px;
+            }
         }
     </style>
 
@@ -87,11 +161,12 @@
     <header>
         <a href="{% url 'weeks:weeks_list' %}" class="brand">
             <img src="{% static 'images/piro_logo.png' %}" alt="PiroMatch Logo" class="logo-img">
-            
+
             <div class="title">PiroMatch</div>
         </a>
         <nav>
-             <a href="{% url 'members:member_list' %}" class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
+            <a href="{% url 'members:member_list' %}"
+                class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
                 멤버 관리
             </a>
         </nav>
