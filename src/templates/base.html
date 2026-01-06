@@ -71,6 +71,63 @@
         main {
             padding-top: 78px;
         }
+
+        /* =========================
+   📱 Mobile (≤ 480px)
+   ========================= */
+        @media (max-width: 480px) {
+            header {
+                height: 56px;
+                /* 78 → 56 */
+                padding: 0 16px;
+            }
+
+            .brand {
+                gap: 10px;
+            }
+
+            .logo {
+                width: 20px;
+                height: 20px;
+                gap: 3px;
+            }
+
+            .logo span {
+                width: 8px;
+                height: 8px;
+            }
+
+            .title {
+                font-size: 20px;
+                /* 28 → 20 */
+            }
+
+            nav a {
+                font-size: 14px;
+                padding: 6px 10px;
+                /* 터치 영역 확보 */
+                border-radius: 999px;
+                background: rgba(11, 236, 18, 0.12);
+                /* subtle highlight */
+            }
+
+            main {
+                padding-top: 56px;
+                /* header 높이와 정확히 맞춤 */
+            }
+        }
+
+        /* 아주 작은 폰 (≤ 360px) */
+        @media (max-width: 360px) {
+            .title {
+                font-size: 18px;
+            }
+
+            nav a {
+                font-size: 13px;
+                padding: 5px 8px;
+            }
+        }
     </style>
 
     {% block extra_head %}{% endblock %}

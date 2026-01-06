@@ -156,6 +156,109 @@
     padding: 10px 22px;
     font-size: 18px;
   }
+
+  /* =========================
+   📱 Mobile (≤ 480px)
+   ========================= */
+  @media (max-width: 480px) {
+    .wrap {
+      padding: 18px 14px 46px;
+    }
+
+    /* 상단 버튼: 터치하기 쉽게 */
+    .actions {
+      margin: 8px 0 14px;
+    }
+
+    .btn-score {
+      width: 100%;
+      max-width: 360px;
+      height: 44px;
+      font-size: 16px;
+      padding: 0;
+    }
+
+    /* 새로고침: 기존 우측 고정 유지하되 크기/위치 안정 */
+    .refresh {
+      right: 0;
+      width: 44px;
+      height: 44px;
+    }
+
+    .board {
+      width: 100%;
+      border-radius: 14px;
+    }
+
+    /* ✅ 핵심: 팀들을 가로로 넘겨보는 슬라이더 */
+    .grid {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 86%;
+      /* 한 화면에 팀 1개 중심 */
+      grid-template-columns: unset;
+      /* repeat 해제 */
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .grid::-webkit-scrollbar {
+      height: 0;
+    }
+
+    .col {
+      min-height: 320px;
+      border-left: 0;
+      border-right: 1px solid rgba(0, 0, 0, .18);
+      scroll-snap-align: start;
+      background: var(--beige);
+    }
+
+    .col-head {
+      height: 52px;
+      font-size: 24px;
+    }
+
+    .col-body {
+      padding: 14px 12px 12px;
+      gap: 8px;
+    }
+
+    .pill {
+      width: 92%;
+      height: 34px;
+      font-size: 16px;
+    }
+
+    .avg {
+      margin-top: 10px;
+      width: 92%;
+      font-size: 12px;
+    }
+
+    /* 하단 저장 버튼: 중앙 + 풀폭 */
+    .save-wrap {
+      width: 100%;
+      margin-top: 14px;
+      justify-content: center;
+    }
+
+    .btn-save {
+      width: 100%;
+      max-width: 360px;
+      height: 44px;
+      font-size: 16px;
+      padding: 0;
+    }
+  }
+
+  /* 아주 작은 폰(≤ 360px)에서는 더 꽉 차게 */
+  @media (max-width: 360px) {
+    .grid {
+      grid-auto-columns: 92%;
+    }
+  }
 </style>
 {% endblock %}
 
@@ -188,7 +291,7 @@
           <div class="pill
                         {% if m.gender == 'M' %}male{% else %}female{% endif %}
                         {% if m.major == 'X' %}nonmajor{% endif %}">
-                        {{ m.name }}
+            {{ m.name }}
           </div>
           {% endfor %}
 

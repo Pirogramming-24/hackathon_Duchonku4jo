@@ -164,6 +164,122 @@
         color: #111;
         text-align: left;
     }
+
+    /* =========================
+   📱 Mobile (≤ 480px)
+   ========================= */
+    @media (max-width: 480px) {
+        .wrap {
+            padding: 18px 14px 46px;
+        }
+
+        /* 상단 버튼 영역: 세로 정렬 + 터치 영역 키우기 */
+        .actions {
+            margin: 8px 0 14px;
+            gap: 10px;
+        }
+
+        .btn-score {
+            width: 100%;
+            max-width: 360px;
+            height: 44px;
+            font-size: 16px;
+            padding: 0;
+        }
+
+        /* 새로고침 버튼: 우측 고정 대신 같은 줄/위치 안정화 */
+        .refresh {
+            right: 0;
+            width: 44px;
+            height: 44px;
+        }
+
+        /* 보드: 화면 꽉 차게 + 라운드 조금 줄임 */
+        .board {
+            width: 100%;
+            border-radius: 14px;
+        }
+
+        /* ✅ 핵심: grid를 가로 스크롤 가능한 슬라이더로 */
+        .grid {
+            display: grid;
+            grid-auto-flow: column;
+            /* 컬럼을 가로로 흐르게 */
+            grid-auto-columns: 86%;
+            /* 한 번에 팀 1개가 거의 다 보이게 */
+            grid-template-columns: unset;
+            /* 기존 repeat 해제 */
+            overflow-x: auto;
+            /* 가로 스크롤 */
+            scroll-snap-type: x mandatory;
+            /* 스냅 */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 스크롤바 숨김(선택) */
+        .grid::-webkit-scrollbar {
+            height: 0;
+        }
+
+        .col {
+            min-height: 320px;
+            border-left: 0;
+            border-right: 1px solid rgba(0, 0, 0, .18);
+            scroll-snap-align: start;
+            /* 스냅 위치 */
+            background: var(--beige);
+        }
+
+        .col-top {
+            height: 52px;
+            font-size: 24px;
+        }
+
+        .col-body {
+            height: auto;
+            /* 고정 높이 해제 */
+            min-height: 240px;
+        }
+
+        .col-body.filled {
+            padding: 14px 12px 12px;
+            gap: 8px;
+        }
+
+        .pill {
+            width: 92%;
+            height: 34px;
+            font-size: 16px;
+        }
+
+        .avg {
+            margin-top: 10px;
+            width: 92%;
+            font-size: 12px;
+        }
+
+        /* 하단 저장 버튼: 중앙 + 풀폭 */
+        .save-wrap {
+            width: 100%;
+            margin-top: 14px;
+            justify-content: center;
+        }
+
+        .btn-save {
+            width: 100%;
+            max-width: 360px;
+            height: 44px;
+            font-size: 16px;
+            padding: 0;
+        }
+    }
+
+    /* 아주 작은 폰(≤ 360px)에서는 한 화면에 거의 1개씩 */
+    @media (max-width: 360px) {
+        .grid {
+            grid-auto-columns: 92%;
+        }
+    }
 </style>
 {% endblock %}
 

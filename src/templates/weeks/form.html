@@ -41,6 +41,52 @@
         font-weight: 700;
         cursor: pointer;
     }
+
+    /* =========================
+   📱 Mobile (≤ 480px)
+   ========================= */
+    @media (max-width: 480px) {
+        .panel {
+            margin: 80px 14px;
+            padding: 20px 16px;
+            border-radius: 14px;
+        }
+
+        .row {
+            flex-direction: column;
+            /* 가로 → 세로 */
+            align-items: stretch;
+            gap: 12px;
+            font-size: 16px;
+        }
+
+        .row>div {
+            font-weight: 800;
+        }
+
+        input,
+        select {
+            width: 100%;
+            /* 풀폭 */
+            height: 40px;
+            font-size: 16px;
+            border-radius: 6px;
+        }
+
+        .save {
+            margin-top: 18px;
+            justify-content: center;
+            /* 버튼 중앙 */
+        }
+
+        .save button {
+            width: 100%;
+            max-width: 360px;
+            height: 44px;
+            font-size: 16px;
+            padding: 0;
+        }
+    }
 </style>
 {% endblock %}
 
