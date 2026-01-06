@@ -9,7 +9,6 @@ class MemberScoreForm(forms.ModelForm):
 
         widgets = {
             "score": forms.NumberInput(attrs={
-                "min": 0,
-                "class": "score-input"
+                "class": "score-input",
             })
         }
