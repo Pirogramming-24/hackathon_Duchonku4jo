@@ -41,6 +41,14 @@
             gap: 14px;
         }
 
+        /* 추가된 부분: 로고 이미지 크기 조절 */
+        .logo-img {
+            width: 40px;  /* 로고 가로 크기 */
+            height: auto; /* 비율에 맞춰 세로 조절 */
+            display: block;
+        }
+
+        /* 기존에 있던 .logo 스타일 (점 디자인) */
         .logo {
             width: 26px;
             height: 26px;
@@ -70,7 +78,7 @@
         }
 
         nav a:hover {
-            color: #0BEC12; /* 로고와 같은 초록색 */
+            color: #0BEC12;
             opacity: 1;
         }   
 
@@ -85,15 +93,12 @@
 <body>
     <header>
         <a href="{% url 'weeks:weeks_list' %}" class="brand">
-            <div class="logo">
-                <span></span><span></span><span></span><span></span>
-            </div>
+            <img src="{% static 'images/piro_logo.png' %}" alt="PiroMatch Logo" class="logo-img">
+            
             <div class="title">PiroMatch</div>
         </a>
         <nav>
-            <a href="{% url 'members:member_list' %}" class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
-                멤버 관리
-            </a>
+            <a href="{% url 'members:member_list' %}">멤버 관리</a>
         </nav>
     </header>
 
