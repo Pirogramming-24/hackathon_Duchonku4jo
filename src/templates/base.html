@@ -69,7 +69,8 @@
             transition: color 0.3s ease, opacity 0.3s ease;
         }
 
-        nav a:hover {
+        nav a:hover,
+        nav a.active {
             color: #0BEC12;
             opacity: 1;
         }   
@@ -90,7 +91,9 @@
             <div class="title">PiroMatch</div>
         </a>
         <nav>
-            <a href="{% url 'members:member_list' %}" class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
+             <a href="{% url 'members:member_list' %}" class="{% if request.resolver_match.app_name == 'members' %}active{% endif %}">
+                멤버 관리
+            </a>
         </nav>
     </header>
 
@@ -100,5 +103,3 @@
 </body>
 
 </html>
-<!-- 
-뭐지? -->
