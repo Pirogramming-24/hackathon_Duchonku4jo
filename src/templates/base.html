@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Piro Match</title>
+    <link rel="icon" type="image/icon" href="{% static 'images/piro_logo.ico' %}">
 
     <style>
         body {
@@ -40,6 +41,14 @@
             gap: 14px;
         }
 
+        /* 추가된 부분: 로고 이미지 크기 조절 */
+        .logo-img {
+            width: 40px;  /* 로고 가로 크기 */
+            height: auto; /* 비율에 맞춰 세로 조절 */
+            display: block;
+        }
+
+        /* 기존에 있던 .logo 스타일 (점 디자인) */
         .logo {
             width: 26px;
             height: 26px;
@@ -65,7 +74,13 @@
         nav a {
             font-size: 16px;
             opacity: .9;
+            transition: color 0.3s ease, opacity 0.3s ease;
         }
+
+        nav a:hover {
+            color: #0BEC12;
+            opacity: 1;
+        }   
 
         main {
             padding-top: 78px;
@@ -78,9 +93,8 @@
 <body>
     <header>
         <a href="{% url 'weeks:weeks_list' %}" class="brand">
-            <div class="logo">
-                <span></span><span></span><span></span><span></span>
-            </div>
+            <img src="{% static 'images/piro_logo.png' %}" alt="PiroMatch Logo" class="logo-img">
+            
             <div class="title">PiroMatch</div>
         </a>
         <nav>
