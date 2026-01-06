@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 
 
 class Week(models.Model):
@@ -8,7 +9,8 @@ class Week(models.Model):
     )
     team_count = models.PositiveIntegerField(
         verbose_name="팀 개수",
-        help_text="해당 주차의 팀 개수"
+        help_text="해당 주차의 팀 개수",
+        validators=[MinValueValidator(2)],
     )
     pr_name = models.CharField(
         max_length=100,
