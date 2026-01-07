@@ -160,9 +160,54 @@
     font-size: 18px;
   }
 
-  /* =========================
-   📱 Mobile (≤ 480px)
-   ========================= */
+
+  /* 하단 안내 문구 컨테이너 */
+  .notice {
+    margin-top: 40px;
+    /* 위쪽 콘텐츠와 간격 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* 가로 중앙 정렬 */
+    gap: 8px;
+    /* 두 줄 사이의 간격 */
+    font-size: 14px;
+    color: #999;
+    /* 검은 배경에 눈 안 아픈 회색 */
+  }
+
+  /* 한 줄(Line) 스타일 */
+  .notice__line {
+    margin: 0;
+    /* p태그 기본 여백 제거 */
+    display: flex;
+    align-items: center;
+    /* 텍스트와 스와치 높이 중앙 정렬 */
+    justify-content: center;
+    gap: 6px;
+    /* 스와치와 텍스트 사이 간격 */
+  }
+
+  /* 텍스트 스타일 */
+  .notice__text {
+    letter-spacing: -0.02em;
+    /* 자간 살짝 좁게 */
+  }
+
+  /* 밑줄 아이콘 (비전공자 표시) */
+  .notice__swatch--underline {
+    display: inline-block;
+    width: 24px;
+    /* 이름 2글자 정도의 너비 */
+    height: 1em;
+    /* 글자 높이만큼 공간 확보 */
+    border-bottom: 3px solid #999;
+    /* 로고색 밑줄 적용 */
+    box-sizing: border-box;
+    transform: translateY(-4px);
+    /* 텍스트 베이스라인에 맞춰 위치 조정 */
+  }
+
   @media (max-width: 480px) {
     .wrap {
       padding: 18px 14px 46px;
@@ -274,8 +319,8 @@
 
     <a class="refresh" href="{% url 'teams:team_preview' week.id %}" aria-label="새로고침">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16" 
-              stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16" stroke="black"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </a>
   </div>
@@ -304,6 +349,17 @@
     </div>
   </div>
 
+  <div class="notice">
+    <p class="notice__line">
+      <span class="notice__swatch notice__swatch--underline"></span>
+      <span class="notice__text">밑줄 친 사람이 비전공자입니다.</span>
+    </p>
+    <p class="notice__line">
+      <span class="notice__swatch notice__swatch--refresh">⟲</span>
+      <span class="notice__text">원하는 결과가 나오지 않으면 새로고침 해주세요.</span>
+    </p>
+  </div>
+  
   <div class="save-wrap">
     <a class="btn btn-green btn-save" href="{% url 'teams:team_save' week.id %}">
       팀 저장
