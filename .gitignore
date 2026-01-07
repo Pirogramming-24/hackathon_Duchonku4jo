@@ -151,6 +151,7 @@ venv.bak/
 /site
 
 # mypy
+
 .mypy_cache/
 .dmypy.json
 dmypy.json
@@ -264,19 +265,16 @@ poetry.toml
 pyrightconfig.json
 
 ### Web ###
-*.asp
-*.cer
-*.csr
-*.css
-*.htm
-*.html
-*.js
-*.jsp
-*.php
-*.rss
-*.wasm
-*.wat
-*.xhtml
+# *.asp
+# *.cer
+# *.csr
+# *.htm
+# *.js
+# *.jsp
+# *.php
+# *.rss
+# *.wasm
+# *.wat
 
 # End of https://www.toptal.com/developers/gitignore/api/python,django,web
 

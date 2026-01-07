@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<style>
+    :root {
+        --green: #0BEC12;
+        --beige: #FCF9EA;
+        --header-gray: #D9D9D9;
+        --line: #2b2b2b;
+    }
+
+    .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 34px 24px 60px;
+        position: relative;
+    }
+
+    /* 상단 액션 영역 */
+    .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        margin-top: 12px;
+        margin-bottom: 22px;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        cursor: pointer;
+        border-radius: 999px;
+        font-weight: 800;
+    }
+
+    .btn-green {
+        background: var(--green);
+        color: #000;
+    }
+
+    .btn-score {
+        padding: 12px 26px;
+        font-size: 22px;
+        letter-spacing: .2px;
+    }
+
+    /* 새로고침 동그라미 버튼(우측) */
+    .refresh {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--green);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* SVG 아이콘 스타일 */
+    .refresh svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* 메인 표 컨테이너 */
+    .board {
+        width: min(1020px, 100%);
+        margin: 0 auto;
+        background: #FCF9EA;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, .35);
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(var(--team-count), 1fr);
+    }
+
+    .col {
+        min-height: 340px;
+        border-left: 1px solid rgba(0, 0, 0, .25);
+    }
+
+    .col:first-child {
+        border-left: 0;
+    }
+
+    .col-top {
+        height: 58px;
+        background: #D9D9D9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 900;
+        color: #111;
+        border-bottom: 1px solid rgba(0, 0, 0, .25);
+    }
+
+    .col-body {
+        height: 280px;
+    }
+
+
+    /* 하단 팀 저장 버튼 */
+    .save-wrap {
+        width: min(1020px, 100%);
+        margin: 18px auto 0;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-save {
+        padding: 10px 22px;
+        font-size: 18px;
+    }
+
+    .col-body.filled {
+        padding: 18px 12px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pill {
+        width: 78%;
+        height: 32px;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        font-weight: 900;
+        color: #111;
+    }
+
+    .pill.male {
+        background: #B1DDFF;
+    }
+
+    .pill.female {
+        background: #FFD7EB;
+    }
+
+    .pill.nonmajor {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+        text-decoration-thickness: 3px;
+    }
+
+    .avg {
+        margin-top: 16px;
+        width: 92%;
+        font-size: 13px;
+        font-weight: 800;
+        color: #111;
+        text-align: left;
+    }
+
+
+    /* 하단 안내 문구 컨테이너 */
+    .notice {
+        margin-top: 40px;      /* 위쪽 콘텐츠와 간격 */
+        display: flex;
+        flex-direction: column;
+        align-items: center;   /* 가로 중앙 정렬 */
+        gap: 8px;              /* 두 줄 사이의 간격 */
+        font-size: 14px;
+        color: #999;           /* 검은 배경에 눈 안 아픈 회색 */
+    }
+
+    /* 한 줄(Line) 스타일 */
+    .notice__line {
+        margin: 0;             /* p태그 기본 여백 제거 */
+        display: flex;
+        align-items: center;   /* 텍스트와 스와치 높이 중앙 정렬 */
+        justify-content: center;
+        gap: 6px;              /* 스와치와 텍스트 사이 간격 */
+    }
+
+    /* 텍스트 스타일 */
+    .notice__text {
+        letter-spacing: -0.02em; /* 자간 살짝 좁게 */
+    }
+
+    /* 밑줄 아이콘 (비전공자 표시) */
+    .notice__swatch--underline {
+        display: inline-block;
+        width: 24px;           /* 이름 2글자 정도의 너비 */
+        height: 1em;           /* 글자 높이만큼 공간 확보 */
+        border-bottom: 3px solid #999; /* 로고색 밑줄 적용 */
+        box-sizing: border-box;
+        transform: translateY(-4px); /* 텍스트 베이스라인에 맞춰 위치 조정 */
+    }
+    
+    @media (max-width: 480px) {
+        .wrap {
+            padding: 18px 14px 46px;
+        }
+
+        /* 상단 버튼 영역: 세로 정렬 + 터치 영역 키우기 */
+        .actions {
+            margin: 8px 0 14px;
+            gap: 10px;
+        }
+
+        .btn-score {
+            width: 100%;
+            max-width: 360px;
+            height: 44px;
+            font-size: 16px;
+            padding: 0;
+        }
+
+        /* 새로고침 버튼: 우측 고정 대신 같은 줄/위치 안정화 */
+        .refresh {
+            right: 0;
+            width: 44px;
+            height: 44px;
+        }
+
+        /* 보드: 화면 꽉 차게 + 라운드 조금 줄임 */
+        .board {
+            width: 100%;
+            border-radius: 14px;
+        }
+
+        /* ✅ 핵심: grid를 가로 스크롤 가능한 슬라이더로 */
+        .grid {
+            display: grid;
+            grid-auto-flow: column;
+            /* 컬럼을 가로로 흐르게 */
+            grid-auto-columns: 86%;
+            /* 한 번에 팀 1개가 거의 다 보이게 */
+            grid-template-columns: unset;
+            /* 기존 repeat 해제 */
+            overflow-x: auto;
+            /* 가로 스크롤 */
+            scroll-snap-type: x mandatory;
+            /* 스냅 */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* 스크롤바 숨김(선택) */
+        .grid::-webkit-scrollbar {
+            height: 0;
+        }
+
+        .col {
+            min-height: 320px;
+            border-left: 0;
+            border-right: 1px solid rgba(0, 0, 0, .18);
+            scroll-snap-align: start;
+            /* 스냅 위치 */
+            background: var(--beige);
+        }
+
+        .col-top {
+            height: 52px;
+            font-size: 24px;
+        }
+
+        .col-body {
+            height: auto;
+            /* 고정 높이 해제 */
+            min-height: 240px;
+        }
+
+        .col-body.filled {
+            padding: 14px 12px 12px;
+            gap: 8px;
+        }
+
+        .pill {
+            width: 92%;
+            height: 34px;
+            font-size: 16px;
+        }
+
+        .avg {
+            margin-top: 10px;
+            width: 92%;
+            font-size: 12px;
+        }
+
+        /* 하단 저장 버튼: 중앙 + 풀폭 */
+        .save-wrap {
+            width: 100%;
+            margin-top: 14px;
+            justify-content: center;
+        }
+
+        .btn-save {
+            width: 100%;
+            max-width: 360px;
+            height: 44px;
+            font-size: 16px;
+            padding: 0;
+        }
+    }
+
+    /* 아주 작은 폰(≤ 360px)에서는 한 화면에 거의 1개씩 */
+    @media (max-width: 360px) {
+        .grid {
+            grid-auto-columns: 92%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="actions">
+        <a class="btn btn-green btn-score" href="{% url 'teams:score_input' week.id %}">
+            멤버 과제 점수 입력
+        </a>
+
+        <a class="refresh" href="{% url 'teams:team_preview' week.id %}" aria-label="새로고침">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16" stroke="black"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </a>
+    </div>
+
+    <div class="board">
+        <div class="grid" style="--team-count: {{ week.team_count|default:5 }};">
+            {% if teams and teams|length > 0 %}
+            {% for team in teams %}
+            <div class="col">
+                <div class="col-top">{{ team.team_no }}조</div>
+
+                <div class="col-body filled">
+                    {% for m in team.members %}
+                    <div class="pill
+                        {% if m.gender == 'M' %}male{% else %}female{% endif %}
+                        {% if m.major == 'X' %}nonmajor{% endif %}">
+                        {{ m.name }}
+                    </div>
+                    {% endfor %}
+
+                    <div class="avg">
+                        과제 평균 점수: {{ team.team_score|floatformat:0 }}점
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for _ in ""|center:week.team_count %}
+            <div class="col">
+                <div class="col-top">{{ forloop.counter }}조</div>
+                <div class="col-body"></div>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="notice">
+        <p class="notice__line">
+            <span class="notice__swatch notice__swatch--underline"></span>
+            <span class="notice__text">밑줄 친 사람이 비전공자입니다.</span>
+        </p>
+        <p class="notice__line">
+            <span class="notice__swatch notice__swatch--refresh">⟲</span>
+            <span class="notice__text">원하는 결과가 나오지 않으면 새로고침 해주세요.</span>
+        </p>
+    </div>
+
+    <div class="save-wrap">
+        <a class="btn btn-green btn-save" href="{% url 'teams:team_save' week.id %}">
+            팀 저장
+        </a>
+    </div>
+</div>
+{% endblock %}
